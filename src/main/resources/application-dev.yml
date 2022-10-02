@@ -1,0 +1,24 @@
+server:
+  #设备端口号
+  port: 9090
+spring:
+  application:
+    # 应用名称
+    name: School-BBS
+  datasource:
+    #mysql数据库配置
+    url: jdbc:mysql://localhost:3306/school_bbs?characterEncoding=utf-8&useSSL=false
+    username: root
+    password: Why07895684.
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    # 数据库索引,默认为0
+    database: 0
+    # 服务器地址
+    host: 192.168.0.121
+    # 服务器端口
+    port: 6379
+    # 数据库密码
+    password: 123456
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml

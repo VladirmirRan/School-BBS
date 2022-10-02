@@ -43,6 +43,15 @@ public class Result<T> extends IResult implements Serializable {
         this.data = data;
     }
 
+    public Result(Integer code, String msg, T data) {
+        this.code = code;
+        this.msg = msg;
+        this.data = data;
+    }
+
+    public Result() {
+    }
+
     public static <T> Result<T> build(T data, ResultCodeEnum codeEnum) {
         Result result = new Result();
         result.setCode(codeEnum.getCode());
