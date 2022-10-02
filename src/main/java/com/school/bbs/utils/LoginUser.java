@@ -1,5 +1,6 @@
-package com.school.bbs.domain;
+package com.school.bbs.utils;
 
+import com.school.bbs.domain.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

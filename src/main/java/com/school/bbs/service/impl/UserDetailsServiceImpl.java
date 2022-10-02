@@ -1,15 +1,15 @@
 package com.school.bbs.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.school.bbs.domain.LoginUser;
+import com.school.bbs.utils.LoginUser;
 import com.school.bbs.domain.User;
 import com.school.bbs.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -19,6 +19,7 @@ import java.util.Objects;
  * @createDate 2022/10/2 12:38
  * @since 1.0.0
  */
+@Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired

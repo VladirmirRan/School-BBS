@@ -27,7 +27,7 @@ public class JwtUtil {
     /**
      * 设置秘钥明文
      */
-    public static final String JWT_KEY = "schoolbbs";
+    public static final String JWT_KEY = "school";
 
     /**
      * 获取uuid

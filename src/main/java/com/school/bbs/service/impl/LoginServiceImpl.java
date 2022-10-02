@@ -2,7 +2,7 @@ package com.school.bbs.service.impl;
 
 import com.school.bbs.common.result.Result;
 import com.school.bbs.common.result.ResultCodeEnum;
-import com.school.bbs.domain.LoginUser;
+import com.school.bbs.utils.LoginUser;
 import com.school.bbs.domain.User;
 import com.school.bbs.service.LoginService;
 import com.school.bbs.utils.JwtUtil;
