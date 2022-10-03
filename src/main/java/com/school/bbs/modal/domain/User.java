@@ -1,10 +1,11 @@
-package com.school.bbs.domain;
+package com.school.bbs.modal.domain;
 
 import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author lu.xin
@@ -64,7 +65,7 @@ public class User implements Serializable {
      * 创建人编号
      */
     @ApiModelProperty("创建人编号")
-    private String createUser;
+    private Long createUser;
 
     /**
      * 用户状态：0 - 禁用、1 - 启用
@@ -76,13 +77,13 @@ public class User implements Serializable {
      * 创建时间
      */
     @ApiModelProperty("创建时间")
-    private String createTime;
+    private Date createTime;
 
     /**
      * 更新时间
      */
     @ApiModelProperty("更新时间")
-    private String updateTime;
+    private Date updateTime;
 
     /**
      * 是否删除：0 - 未删除、1 - 删除
@@ -150,11 +151,11 @@ public class User implements Serializable {
         this.avatar = avatar;
     }
 
-    public String getCreateUser() {
+    public Long getCreateUser() {
         return createUser;
     }
 
-    public void setCreateUser(String createUser) {
+    public void setCreateUser(Long createUser) {
         this.createUser = createUser;
     }
 
@@ -166,19 +167,19 @@ public class User implements Serializable {
         this.status = status;
     }
 
-    public String getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(String createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
-    public String getUpdateTime() {
+    public Date getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(String updateTime) {
+    public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
 
@@ -193,7 +194,7 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(Long id, String name, int role, String phone, String password, String sex, String avatar, String createUser, String status, String createTime, String updateTime, String deleted) {
+    public User(Long id, String name, int role, String phone, String password, String sex, String avatar, Long createUser, String status, Date createTime, Date updateTime, String deleted) {
         this.id = id;
         this.name = name;
         this.role = role;

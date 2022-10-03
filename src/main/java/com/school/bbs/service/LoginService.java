@@ -1,7 +1,7 @@
 package com.school.bbs.service;
 
 import com.school.bbs.common.result.Result;
-import com.school.bbs.domain.User;
+import com.school.bbs.modal.domain.User;
 
 /**
  * @author lu.xin
@@ -19,5 +19,12 @@ public interface LoginService {
      * @return Result
      */
     Result login(User user);
+
+    /**
+     * 登出接口
+     *
+     * @return Result
+     */
+    Result logout();
 
 }

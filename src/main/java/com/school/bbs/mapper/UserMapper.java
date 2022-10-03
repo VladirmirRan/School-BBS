@@ -1,7 +1,7 @@
 package com.school.bbs.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.school.bbs.domain.User;
+import com.school.bbs.modal.domain.User;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

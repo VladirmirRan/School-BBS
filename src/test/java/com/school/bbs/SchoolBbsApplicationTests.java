@@ -1,6 +1,6 @@
 package com.school.bbs;
 
-import com.school.bbs.domain.User;
+import com.school.bbs.modal.domain.User;
 import com.school.bbs.mapper.UserMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

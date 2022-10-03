@@ -1,6 +1,6 @@
-package com.school.bbs.utils;
+package com.school.bbs.modal.request;
 
-import com.school.bbs.domain.User;
+import com.school.bbs.modal.domain.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

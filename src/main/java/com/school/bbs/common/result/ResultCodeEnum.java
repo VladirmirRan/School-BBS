@@ -39,6 +39,15 @@ public enum ResultCodeEnum {
     SIGN_ERROR(300, "签名错误"),
     HOSPITAL_OPEN(310, "医院未开通，暂时不能访问"),
     HOSPITAL_LOCK(320, "医院被锁定，暂时不能访问"),
+
+    USERNAME_NOT_NULL(507, "用户名不能为空"),
+    PASSWORD_NOT_NULL(517, "密码不能为空"),
+    PHONE_NOT_NULL(527, "电话不能为空"),
+    SEX_NOT_NULL(537, "性别不能为空"),
+    AVATAR_NOT_NULL(547, "头像不能为空"),
+    USERNAME_EXIST(567, "用户名已存在"),
+    USER_REGISTER_FAIL(577, "用户注册失败"),
+    PASSWORD_LENGTH_EIGHT(587, "密码长度小于6位"),
     ;
 
     private Integer code;

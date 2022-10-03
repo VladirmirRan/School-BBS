@@ -1,5 +1,6 @@
 package com.school.bbs.config;
 
+import com.school.bbs.filter.JwtAuthenticationTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,8 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
@@ -22,6 +21,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  */
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -36,9 +38,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //对于登录接口，允许匿名访问
                 .antMatchers("/login")
                 .anonymous()
+                //对于注册接口，允许匿名访问
+                .antMatchers("/register")
+                .anonymous()
                 //除上面外的所有请求全部需要鉴权验证
                 .anyRequest()
                 .authenticated();
+
+        //添加过滤器
+        http.addFilterBefore(jwtAuthenticationTokenFilter , UsernamePasswordAuthenticationFilter.class);
+
+        // 关闭默认的注销功能
+        http.logout().disable();
     }
 
     /**

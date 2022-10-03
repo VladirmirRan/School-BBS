@@ -1,8 +1,8 @@
 package com.school.bbs.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.school.bbs.utils.LoginUser;
-import com.school.bbs.domain.User;
+import com.school.bbs.modal.request.LoginUser;
+import com.school.bbs.modal.domain.User;
 import com.school.bbs.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

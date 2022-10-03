@@ -49,6 +49,11 @@ public class Result<T> extends IResult implements Serializable {
         this.data = data;
     }
 
+    public Result(Integer code, String msg) {
+        this.code = code;
+        this.msg = msg;
+    }
+
     public Result() {
     }
 
