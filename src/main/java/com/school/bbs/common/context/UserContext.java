@@ -4,14 +4,16 @@ import java.util.Date;
 
 /**
  * @author why
- * @date 2022/10/03/10:32
+ * @since 2022/10/03/10:32
  */
 public class UserContext {
     private static final long serialVersionUID = -6592741745554468326L;
     private long id;
     private String name;
     private boolean enable;
-    private int status;
+    private Boolean status;
+
+    private Integer role;
     private Date createTime;
 
     public long getId() {
@@ -38,12 +40,20 @@ public class UserContext {
         this.enable = enable;
     }
 
-    public int getStatus() {
+    public Boolean getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Boolean status) {
         this.status = status;
+    }
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
     }
 
     public Date getCreateTime() {

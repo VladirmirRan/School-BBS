@@ -52,6 +52,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         UserContext userContext = new UserContext();
         userContext.setId(user.getId());
         userContext.setName(user.getName());
+        userContext.setRole(user.getRole());
         userContext.setEnable(user.getDeleted());
         userContext.setStatus(user.getStatus());
         userContext.setCreateTime(user.getCreateTime());

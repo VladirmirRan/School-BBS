@@ -23,15 +23,9 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("user")
-public class UserDomain implements Serializable {
+public class UserDomain extends BaseDomain implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 主键
-     */
-    @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
 
     /**
      * 用户名
@@ -74,30 +68,6 @@ public class UserDomain implements Serializable {
      */
     @TableField("create_user")
     private Long createUser;
-
-    /**
-     * 状态 0禁用1启用
-     */
-    @TableField("status")
-    private Integer status;
-
-    /**
-     * 创建时间
-     */
-    @TableField("create_time")
-    private Date createTime;
-
-    /**
-     * 更新时间
-     */
-    @TableField("update_time")
-    private Date updateTime;
-
-    /**
-     * 是否删除 0未删除1删除
-     */
-    @TableField("deleted")
-    private Boolean deleted;
 
 
 }

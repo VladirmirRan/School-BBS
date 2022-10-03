@@ -1,6 +1,8 @@
 server:
   #设备端口号
   port: 9090
+  servlet:
+    context-path: /api
 spring:
   application:
     # 应用名称
