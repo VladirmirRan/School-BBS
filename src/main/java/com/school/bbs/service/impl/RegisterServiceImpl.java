@@ -3,15 +3,11 @@ package com.school.bbs.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.school.bbs.common.exception.YyghException;
-import com.school.bbs.common.result.Result;
 import com.school.bbs.common.result.ResultCodeEnum;
-import com.school.bbs.modal.domain.User;
-import com.school.bbs.mapper.UserMapper;
+import com.school.bbs.domain.UserDomain;
+import com.school.bbs.mapper.UserDomainMapper;
 import com.school.bbs.service.RegisterService;
-import com.school.bbs.modal.request.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -26,7 +22,8 @@ import java.util.Date;
  * @since 1.0.0
  */
 @Service
-public class RegisterServiceImpl extends ServiceImpl<UserMapper, User> implements RegisterService {
+public class RegisterServiceImpl extends ServiceImpl<UserDomainMapper, UserDomain> implements RegisterService {
+
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -38,9 +35,9 @@ public class RegisterServiceImpl extends ServiceImpl<UserMapper, User> implement
      * @return boolean
      */
     private boolean userNameExist(String userName) {
-        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(User::getName, userName);
-        return count(queryWrapper) > 0;
+        LambdaQueryWrapper<UserDomain> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(UserDomain::getName, userName);
+        return this.count(queryWrapper) > 0;
     }
 
     /**
@@ -55,7 +52,7 @@ public class RegisterServiceImpl extends ServiceImpl<UserMapper, User> implement
      * @return Result 响应结果
      */
     @Override
-    public Result register(String userName, String password, String checkPassword, String sex, String phone, String avatar) {
+    public void register(String userName, String password, String checkPassword, Integer sex, String phone, String avatar) {
         // 对数据进行非空判断
         if (!StringUtils.hasText(userName)) {
             throw new YyghException(ResultCodeEnum.USERNAME_NOT_NULL);
@@ -69,7 +66,7 @@ public class RegisterServiceImpl extends ServiceImpl<UserMapper, User> implement
         if (!StringUtils.hasText(phone)) {
             throw new YyghException(ResultCodeEnum.PHONE_NOT_NULL);
         }
-        if (!StringUtils.hasText(sex)) {
+        if (!StringUtils.hasText(sex.toString())) {
             throw new YyghException(ResultCodeEnum.SEX_NOT_NULL);
         }
 //        if (!StringUtils.hasText(avatar)) {
@@ -86,7 +83,7 @@ public class RegisterServiceImpl extends ServiceImpl<UserMapper, User> implement
         }
         // 对密码进行加密
         String encodePassword = passwordEncoder.encode(password);
-        User user = new User();
+        UserDomain user = new UserDomain();
         user.setName(userName);
         user.setPassword(encodePassword);
         user.setSex(sex);
@@ -97,10 +94,8 @@ public class RegisterServiceImpl extends ServiceImpl<UserMapper, User> implement
         // TODO:魔法值处理，对应User类的字段类型修改
         user.setCreateUser(100001L);
         user.setRole(3);
-        user.setDeleted("0");
+        user.setDeleted(false);
         // 存入数据库
         save(user);
-        // TODO:响应结果修改
-        return new Result(ResultCodeEnum.SUCCESS.getCode(), ResultCodeEnum.SUCCESS.getMessage());
     }
 }

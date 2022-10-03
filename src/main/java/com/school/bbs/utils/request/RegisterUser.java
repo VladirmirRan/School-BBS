@@ -1,6 +1,4 @@
-package com.school.bbs.modal.request;
-
-import io.swagger.annotations.ApiModelProperty;
+package com.school.bbs.utils.request;
 
 import java.io.Serializable;
 
@@ -38,7 +36,7 @@ public class RegisterUser implements Serializable {
     /**
      * 用户性别
      */
-    private String sex;
+    private Integer sex;
 
     /**
      * 用户头像
@@ -77,11 +75,11 @@ public class RegisterUser implements Serializable {
         this.phone = phone;
     }
 
-    public String getSex() {
+    public Integer getSex() {
         return sex;
     }
 
-    public void setSex(String sex) {
+    public void setSex(Integer sex) {
         this.sex = sex;
     }
 

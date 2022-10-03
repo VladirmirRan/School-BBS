@@ -1,7 +1,8 @@
 package com.school.bbs.controller;
 
-import com.school.bbs.common.result.Result;
-import com.school.bbs.modal.domain.User;
+import com.school.bbs.common.result.ApiResult;
+import com.school.bbs.controller.input.LoginInput;
+import com.school.bbs.controller.output.LoginOutput;
 import com.school.bbs.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @createDate 2022/10/2 13:26
  * @since 1.0.0
  */
+@ApiResult
 @RestController
 public class LoginController {
 
@@ -23,25 +25,22 @@ public class LoginController {
 
     /**
      * 登录接口
-     *
-     * @param user User
-     * @return Result
+     * @param loginInput 入参
+     * @return loginOutput 出参
      */
     @PostMapping("/login")
-    public Result login(@RequestBody User user) {
+    public LoginOutput login(@RequestBody LoginInput loginInput) {
         //登录
-        return loginService.login(user);
+        return loginService.login(loginInput);
     }
 
     /**
      * 登出接口
-     *
-     * @return Result
      */
     @PostMapping("/logout")
-    public Result logout() {
+    public void logout() {
         //登出
-        return loginService.logout();
+        loginService.logout();
     }
 
 }

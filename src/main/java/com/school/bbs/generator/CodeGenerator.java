@@ -66,10 +66,10 @@ public class CodeGenerator {
  
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://120.48.4.108:3306/yygh_cmn?useUnicode=true&characterEncoding=UTF-8&useSSL=false");
+        dsc.setUrl("jdbc:mysql://sh-cynosdbmysql-grp-4pyk1uri.sql.tencentcdb.com:20794/school_bbs?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("root");
-        dsc.setPassword("");
+        dsc.setPassword("M98PB-da4BGs85v");
         mpg.setDataSource(dsc);
  
         // 包配置

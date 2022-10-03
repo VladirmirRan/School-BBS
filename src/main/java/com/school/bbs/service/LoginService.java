@@ -1,7 +1,7 @@
 package com.school.bbs.service;
 
-import com.school.bbs.common.result.Result;
-import com.school.bbs.modal.domain.User;
+import com.school.bbs.controller.input.LoginInput;
+import com.school.bbs.controller.output.LoginOutput;
 
 /**
  * @author lu.xin
@@ -18,13 +18,11 @@ public interface LoginService {
      * @param user User
      * @return Result
      */
-    Result login(User user);
+    LoginOutput login(LoginInput user);
 
     /**
      * 登出接口
-     *
-     * @return Result
      */
-    Result logout();
+    void logout();
 
 }

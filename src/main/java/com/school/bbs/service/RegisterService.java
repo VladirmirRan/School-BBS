@@ -2,8 +2,7 @@ package com.school.bbs.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.school.bbs.common.result.Result;
-import com.school.bbs.modal.domain.User;
-import com.school.bbs.modal.request.RegisterUser;
+import com.school.bbs.domain.UserDomain;
 
 /**
  * @author lu.xin
@@ -12,7 +11,7 @@ import com.school.bbs.modal.request.RegisterUser;
  * @createDate 2022/10/3 11:25
  * @since 1.0.0
  */
-public interface RegisterService extends IService<User> {
+public interface RegisterService extends IService<UserDomain> {
 
     /**
      * 用户注册接口
@@ -25,6 +24,6 @@ public interface RegisterService extends IService<User> {
      * @param avatar        String 用户头像
      * @return Result 响应结果
      */
-    Result register(String userName, String password, String checkPassword, String sex, String phone, String avatar);
+    void register(String userName, String password, String checkPassword, Integer sex, String phone, String avatar);
 
 }

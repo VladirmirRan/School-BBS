@@ -1,12 +1,13 @@
 package com.school.bbs.service.impl;
 
-import com.school.bbs.common.result.Result;
-import com.school.bbs.common.result.ResultCodeEnum;
-import com.school.bbs.modal.request.LoginUser;
-import com.school.bbs.modal.domain.User;
+import com.alibaba.fastjson.JSON;
+import com.school.bbs.constant.AuthConstant;
+import com.school.bbs.controller.input.LoginInput;
+import com.school.bbs.controller.output.LoginOutput;
 import com.school.bbs.service.LoginService;
 import com.school.bbs.utils.JwtUtil;
 import com.school.bbs.utils.RedisCache;
+import com.school.bbs.utils.request.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,7 +15,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.Objects;
 
 
@@ -37,43 +37,39 @@ public class LoginServiceImpl implements LoginService {
     /**
      * 登录接口
      *
-     * @param user User
-     * @return Result
+     * @param loginInput User
+     * @return LoginOutput out
      */
     @Override
-    public Result login(User user) {
+    public LoginOutput login(LoginInput loginInput) {
         // AuthenticationManager authenticationManager进行用户验证
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user.getName() , user.getPassword());
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginInput.getUsrName(), loginInput.getPassword());
         Authentication authenticate = authenticationManager.authenticate(authenticationToken);
         //如果认证没通过，给出对应的提示
-        if (Objects.isNull(authenticate)){
+        if (Objects.isNull(authenticate)) {
             throw new RuntimeException("登录失败");
         }
         //如果认证通过了，使用userid生成一个jwt,jwt存入 Result 返回
         LoginUser loginUser = (LoginUser) authenticate.getPrincipal();
-        String userId = loginUser.getUser().getId().toString();
-        String jwt = JwtUtil.createJWT(userId);
+        String subject = JSON.toJSONString(loginUser.getUserContext());
+        String jwt = JwtUtil.createJWT(subject);
         //把完整的用户信息存入redis,userid作为Key
-        redisCache.setCacheObject("login:" + userId , loginUser);
+        redisCache.setCacheObject(AuthConstant.LOGIN + loginUser.getUserContext().getId(), loginUser.getUserContext());
         // 把token响应给前端
-        HashMap<String , String> map = new HashMap<>();
-        map.put("token" , jwt);
-        return new Result(ResultCodeEnum.SUCCESS.getCode(), ResultCodeEnum.SUCCESS.getMessage(), map);
+
+        return new LoginOutput(jwt);
     }
 
     /**
      * 登出接口
-     *
-     * @return Result
      */
     @Override
-    public Result logout() {
+    public void logout() {
         //获取SecurityContextHolder中的用户id
         UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();
-        Long userId = loginUser.getUser().getId();
+        Long userId = loginUser.getUserContext().getId();
         //删除redis中的值
-        redisCache.deleteObject("login:" + userId);
-        return new Result(ResultCodeEnum.SUCCESS.getCode(), ResultCodeEnum.SUCCESS.getMessage());
+        redisCache.deleteObject(AuthConstant.LOGIN + userId);
     }
 }

@@ -1,7 +1,7 @@
 package com.school.bbs.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.school.bbs.modal.domain.User;
+import com.school.bbs.domain.UserDomain;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -12,5 +12,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 1.0.0
  */
 @Mapper
-public interface UserMapper extends BaseMapper<User> {
+public interface UserDomainMapper extends BaseMapper<UserDomain> {
 }

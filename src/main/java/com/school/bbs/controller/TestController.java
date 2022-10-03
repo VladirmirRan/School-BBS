@@ -1,6 +1,8 @@
 package com.school.bbs.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.school.bbs.common.context.ContextHolder;
+import com.school.bbs.common.result.ApiResult;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -10,12 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
  * @createDate 2022/10/2 10:34
  * @since 1.0.0
  */
+@ApiResult
 @RestController
 public class TestController {
 
-    @RequestMapping("/hello")
-    public String hello(){
-        return "hello";
+    @PostMapping("/hello")
+    public String hello() {
+        return ContextHolder.getLoginContext().getName().toString();
     }
 
 }
