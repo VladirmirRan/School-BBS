@@ -16,7 +16,7 @@ public class BaseDomain {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
     /**
-     * 状态：1、可用2、不可用
+     * 状态：0、禁用1、启用
      */
     @TableField(value = "status", fill = FieldFill.INSERT)
     private Boolean status;

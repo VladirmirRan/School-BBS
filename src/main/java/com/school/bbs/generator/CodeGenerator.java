@@ -18,6 +18,7 @@ import java.util.Scanner;
 /**
  * mybatis-plus代码生成器，生成实体，mapper，mapper.xml，service，serviceImpl，controller
  * 演示例子，执行 main 方法控制台输入表名回车自动生成对应项目目录中(目录要需要自行修改)
+ * @author Nier_2B
  */
 public class CodeGenerator {
  
