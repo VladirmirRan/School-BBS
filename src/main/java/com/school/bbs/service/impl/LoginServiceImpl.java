@@ -1,6 +1,7 @@
 package com.school.bbs.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.school.bbs.common.context.UserContext;
 import com.school.bbs.constant.AuthConstant;
 import com.school.bbs.controller.input.LoginInput;
 import com.school.bbs.controller.output.LoginOutput;
@@ -67,8 +68,14 @@ public class LoginServiceImpl implements LoginService {
     public void logout() {
         //获取SecurityContextHolder中的用户id
         UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
-        LoginUser loginUser = (LoginUser) authentication.getPrincipal();
-        Long userId = loginUser.getUserContext().getId();
+        // lux改20221003：注释备份
+//        LoginUser loginUser = (LoginUser) authentication.getPrincipal();
+        // lux改20221003：用户上下文
+        UserContext loginUser = (UserContext) authentication.getPrincipal();
+        // lux改20221003：注释备份
+//        Long userId = loginUser.getUserContext().getId();
+        // lux改20221003：获取 userId
+        Long userId = loginUser.getId();
         //删除redis中的值
         redisCache.deleteObject(AuthConstant.LOGIN + userId);
     }
