@@ -8,10 +8,9 @@ import com.school.bbs.controller.input.QueryArticleInput;
 import com.school.bbs.controller.output.QueryArticleListOutput;
 import com.school.bbs.service.ArticleService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
@@ -32,15 +31,15 @@ public class ArticleController {
     @Autowired
     private ArticleService articleService;
 
+    @ApiOperation("新建帖子")
     @PostMapping
-    public void add(@RequestBody AddArticleInput article){
-         articleService.add(article, ContextHolder.getLoginContext().getId());
+    public void add(@RequestBody AddArticleInput article) {
+        articleService.add(article, ContextHolder.getLoginContext().getId());
     }
 
-
+    @ApiOperation("分页查询帖子")
     @GetMapping("/query/articleList")
-    public List<QueryArticleListOutput> queryArticleList(QueryArticleInput queryArticleInput)
-    {
+    public List<QueryArticleListOutput> queryArticleList(QueryArticleInput queryArticleInput) {
         return articleService.queryArticleList(queryArticleInput);
 
     }
