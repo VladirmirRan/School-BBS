@@ -47,6 +47,8 @@ public enum ResultCodeEnum {
     USER_NOT_EXIST(504, "用户不存在"),
 
     USERNAME_NOT_NULL(507, "用户名不能为空"),
+    TOKEN_ERROR(508, "token非法"),
+    USER_NOT_LOGIN(509, "用户未登录"),
     PASSWORD_NOT_NULL(517, "密码不能为空"),
     PHONE_NOT_NULL(527, "电话不能为空"),
     SEX_NOT_NULL(537, "性别不能为空"),

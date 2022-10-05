@@ -2,6 +2,7 @@ package com.school.bbs.filter;
 
 import com.alibaba.fastjson.JSON;
 import com.school.bbs.common.context.UserContext;
+import com.school.bbs.common.exception.YyghException;
 import com.school.bbs.constant.AuthConstant;
 import com.school.bbs.utils.JwtUtil;
 import com.school.bbs.utils.RedisCache;
@@ -19,6 +20,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Objects;
+
+import static com.school.bbs.constant.ResultCodeEnum.TOKEN_ERROR;
+import static com.school.bbs.constant.ResultCodeEnum.USER_NOT_LOGIN;
 
 /**
  * @author lu.xin
@@ -51,13 +55,13 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             userContext = JSON.parseObject(claims.getSubject(), UserContext.class);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("token非法");
+            throw new YyghException(TOKEN_ERROR);
         }
         //从redis中获取用户信息
         String redisKey = AuthConstant.LOGIN + userContext.getId();
         UserContext context = redisCache.getCacheObject(redisKey);
         if (Objects.isNull(context)) {
-            throw new RuntimeException("用户未登录");
+            throw new YyghException(USER_NOT_LOGIN);
         }
         //存入SecurityContextHolder
         //TODO 获取权限信息封装到Authentication中
