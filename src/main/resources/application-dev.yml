@@ -1,26 +1,31 @@
 server:
-  #设备端口号
-  port: 9090
+  port: 7070
   servlet:
     context-path: /api
 spring:
   application:
-    # 应用名称
     name: School-BBS
   datasource:
-    #mysql数据库配置
-    url: jdbc:mysql://localhost:3306/school_bbs?characterEncoding=utf-8&useSSL=false
+    url: jdbc:mysql://sh-cynosdbmysql-grp-4pyk1uri.sql.tencentcdb.com:20794/school_bbs?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
     username: root
-    password: Why07895684.
+    password: M98PB-da4BGs85v
     driver-class-name: com.mysql.cj.jdbc.Driver
   redis:
     # 数据库索引,默认为0
     database: 0
     # 服务器地址
-    host: 192.168.0.121
+    host: 120.48.4.108
     # 服务器端口
     port: 6379
     # 数据库密码
     password: 123456
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**/*.xml
+  global-config:
+    db-config:
+      # 全局逻辑删除的实体字段名(since 3.3.0,配置后可以忽略不配置步骤2)
+      logic-delete-field: isDelete
+      # 逻辑已删除值(默认为 1)
+      logic-delete-value: 1
+      # 逻辑未删除值(默认为 0)
+      logic-not-delete-value: 0
