@@ -39,7 +39,7 @@ public class ArticleController {
 
     @ApiOperation("分页查询帖子")
     @GetMapping("/query/articleList")
-    public List<QueryArticleListOutput> queryArticleList(QueryArticleInput queryArticleInput) {
+    public List<QueryArticleListOutput> queryArticleList(@RequestBody  QueryArticleInput queryArticleInput) {
         return articleService.queryArticleList(queryArticleInput);
 
     }

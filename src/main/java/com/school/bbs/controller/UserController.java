@@ -9,10 +9,7 @@ import com.school.bbs.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -36,7 +33,7 @@ public class UserController {
      * @return UserInfoOutput
      */
     @ApiOperation("查看用户信息")
-    @PostMapping("/getUserInfo")
+    @GetMapping("/getUserInfo")
     private UserInfoOutput getUserInfo() {
         return userService.getUserInfo(ContextHolder.getLoginContext().getId());
     }
