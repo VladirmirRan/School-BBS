@@ -1,6 +1,7 @@
 package com.school.bbs.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.school.bbs.common.context.LoginContext;
 import com.school.bbs.common.context.UserContext;
 import com.school.bbs.constant.AuthConstant;
 import com.school.bbs.controller.input.LoginInput;
@@ -8,6 +9,7 @@ import com.school.bbs.controller.output.LoginOutput;
 import com.school.bbs.service.LoginService;
 import com.school.bbs.utils.JwtUtil;
 import com.school.bbs.utils.RedisCache;
+import com.school.bbs.utils.RsaUtil;
 import com.school.bbs.utils.request.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,7 +17,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 
@@ -43,8 +48,27 @@ public class LoginServiceImpl implements LoginService {
      */
     @Override
     public LoginOutput login(LoginInput loginInput) {
+        // 解密后的密码
+        String decryptPassword = null;
+        // 获取前端传过来的uuid
+        String uuid = loginInput.getUuid();
+        if (StringUtils.isEmpty(uuid)){
+            throw new RuntimeException("请检查用户名和密码");
+        }
+        // 通过uuid从redis缓存中获取密钥对
+        LoginContext loginContext = redisCache.getCacheObject(AuthConstant.LOGINBEFORE + uuid);
+        // 从redis缓存中取出私钥
+        String privateKey = loginContext.getPrivateKey();
+        // 通过私钥对前端传过来的密码进行解密
+        try {
+            decryptPassword = RsaUtil.decrypt(loginInput.getPassword(), privateKey);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        // 密码获取到之后，删除缓存
+        redisCache.deleteObject(AuthConstant.LOGINBEFORE + uuid);
         // AuthenticationManager authenticationManager进行用户验证
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginInput.getUsrName(), loginInput.getPassword());
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginInput.getUsrName(), decryptPassword);
         Authentication authenticate = authenticationManager.authenticate(authenticationToken);
         //如果认证没通过，给出对应的提示
         if (Objects.isNull(authenticate)) {

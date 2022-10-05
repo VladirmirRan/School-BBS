@@ -1,5 +1,9 @@
 package com.school.bbs.utils.request;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 
 /**
@@ -9,6 +13,9 @@ import java.io.Serializable;
  * @createDate 2022/10/3 11:55
  * @since 1.0.0
  */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class RegisterUser implements Serializable {
 
     private static final long serialVersionUID = 5087877986705716580L;
@@ -43,51 +50,8 @@ public class RegisterUser implements Serializable {
      */
     private String avatar;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getCheckPassword() {
-        return checkPassword;
-    }
-
-    public void setCheckPassword(String checkPassword) {
-        this.checkPassword = checkPassword;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public Integer getSex() {
-        return sex;
-    }
-
-    public void setSex(Integer sex) {
-        this.sex = sex;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
+    /**
+     * uuid
+     */
+    private String uuid;
 }

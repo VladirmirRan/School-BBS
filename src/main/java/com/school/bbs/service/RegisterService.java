@@ -24,6 +24,6 @@ public interface RegisterService extends IService<UserDomain> {
      * @param avatar        String 用户头像
      * @return Result 响应结果
      */
-    void register(String userName, String password, String checkPassword, Integer sex, String phone, String avatar);
+    void register(String userName, String password, String checkPassword, Integer sex, String phone, String avatar, String uuid);
 
 }

@@ -24,5 +24,11 @@ public class LoginInput {
     @ApiModelProperty("用户密码")
     private String password;
 
+    /**
+     * uuid
+     */
+    @ApiModelProperty("uuid")
+    private String uuid;
+
 
 }
