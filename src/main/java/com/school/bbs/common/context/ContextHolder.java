@@ -27,5 +27,18 @@ public class ContextHolder {
         }
 
     }
+
+    public static LoginContext getLoginBeforeContext() {
+        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        String authorization = requestAttributes.getRequest().getHeader("token");
+        try {
+            Claims claims = JwtUtil.parseJWT(authorization);
+            LoginContext loginContext = JSON.parseObject(claims.getSubject(), LoginContext.class);
+            return loginContext;
+        } catch (Exception e) {
+            throw new YyghException(ResultCodeEnum.DATA_ERROR);
+        }
+
+    }
 }
 

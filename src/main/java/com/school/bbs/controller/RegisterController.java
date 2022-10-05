@@ -30,7 +30,7 @@ public class RegisterController {
      */
     @PostMapping("/register")
     public void register(@RequestBody RegisterUser registerUser) {
-        registerService.register(registerUser.getName(), registerUser.getPassword(), registerUser.getCheckPassword(), registerUser.getSex(), registerUser.getPhone(), registerUser.getAvatar());
+        registerService.register(registerUser.getName(), registerUser.getPassword(), registerUser.getCheckPassword(), registerUser.getSex(), registerUser.getPhone(), registerUser.getAvatar(), registerUser.getUuid());
     }
 
 }

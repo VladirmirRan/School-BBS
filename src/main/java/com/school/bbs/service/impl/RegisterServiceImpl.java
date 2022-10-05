@@ -2,11 +2,15 @@ package com.school.bbs.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.school.bbs.common.context.LoginContext;
 import com.school.bbs.common.exception.YyghException;
 import com.school.bbs.common.result.ResultCodeEnum;
+import com.school.bbs.constant.AuthConstant;
 import com.school.bbs.domain.UserDomain;
 import com.school.bbs.mapper.UserDomainMapper;
 import com.school.bbs.service.RegisterService;
+import com.school.bbs.utils.RedisCache;
+import com.school.bbs.utils.RsaUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -27,6 +31,9 @@ public class RegisterServiceImpl extends ServiceImpl<UserDomainMapper, UserDomai
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private RedisCache redisCache;
 
     /**
      * 判断用户名是否存在
@@ -52,7 +59,7 @@ public class RegisterServiceImpl extends ServiceImpl<UserDomainMapper, UserDomai
      * @return Result 响应结果
      */
     @Override
-    public void register(String userName, String password, String checkPassword, Integer sex, String phone, String avatar) {
+    public void register(String userName, String password, String checkPassword, Integer sex, String phone, String avatar, String uuid) {
         // 对数据进行非空判断
         if (!StringUtils.hasText(userName)) {
             throw new YyghException(ResultCodeEnum.USERNAME_NOT_NULL);
@@ -63,15 +70,35 @@ public class RegisterServiceImpl extends ServiceImpl<UserDomainMapper, UserDomai
         if (!StringUtils.hasText(checkPassword)) {
             throw new YyghException(ResultCodeEnum.PASSWORD_NOT_NULL);
         }
-        if (!StringUtils.hasText(phone)) {
-            throw new YyghException(ResultCodeEnum.PHONE_NOT_NULL);
-        }
-        if (!StringUtils.hasText(sex.toString())) {
-            throw new YyghException(ResultCodeEnum.SEX_NOT_NULL);
-        }
+//        if (!StringUtils.hasText(phone)) {
+//            throw new YyghException(ResultCodeEnum.PHONE_NOT_NULL);
+//        }
+//        if (!StringUtils.hasText(sex.toString())) {
+//            throw new YyghException(ResultCodeEnum.SEX_NOT_NULL);
+//        }
 //        if (!StringUtils.hasText(avatar)) {
 //            throw new YyghException(ResultCodeEnum.AVATAR_NOT_NULL);
 //        }
+        // 解密后的密码
+        String decryptPassword = null;
+        // 解密后的检查密码
+        String decryptCheckPassword = null;
+        if (StringUtils.isEmpty(uuid)){
+            throw new RuntimeException("请检查用户名和密码");
+        }
+        // 通过uuid从redis缓存中获取密钥对
+        LoginContext loginContext = redisCache.getCacheObject(AuthConstant.LOGINBEFORE + uuid);
+        // 从redis缓存中取出私钥
+        String privateKey = loginContext.getPrivateKey();
+        // 通过私钥对前端传过来的密码进行解密
+        try {
+            decryptPassword = RsaUtil.decrypt(password, privateKey);
+            decryptCheckPassword = RsaUtil.decrypt(checkPassword, privateKey);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        // 密码获取到之后，删除缓存
+        redisCache.deleteObject(AuthConstant.LOGINBEFORE + uuid);
         //对数据进行是否存在的判断
         if (userNameExist(userName)) {
             throw new YyghException(ResultCodeEnum.USERNAME_EXIST);
@@ -82,7 +109,7 @@ public class RegisterServiceImpl extends ServiceImpl<UserDomainMapper, UserDomai
             throw new YyghException(ResultCodeEnum.PASSWORD_LENGTH_EIGHT);
         }
         // 对密码进行加密
-        String encodePassword = passwordEncoder.encode(password);
+        String encodePassword = passwordEncoder.encode(decryptPassword);
         UserDomain user = new UserDomain();
         user.setName(userName);
         user.setPassword(encodePassword);
