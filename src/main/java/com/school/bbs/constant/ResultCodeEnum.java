@@ -1,13 +1,15 @@
-package com.school.bbs.common.result;
+package com.school.bbs.constant;
+
 /**
  * 统一返回结果状态信息类
+ * @author Nier_2B
  */
 
 public enum ResultCodeEnum {
 
-    SUCCESS(200,"成功"),
+    SUCCESS(200, "成功"),
     FAIL(201, "失败"),
-    PARAM_ERROR( 202, "参数不正确"),
+    PARAM_ERROR(202, "参数不正确"),
     SERVICE_ERROR(203, "服务异常"),
     DATA_ERROR(204, "数据异常"),
     DATA_UPDATE_ERROR(205, "数据版本异常"),
@@ -16,16 +18,16 @@ public enum ResultCodeEnum {
     PERMISSION(209, "没有权限"),
 
     CODE_ERROR(210, "验证码错误"),
-//    LOGIN_MOBLE_ERROR(211, "账号不正确"),
+    //    LOGIN_MOBLE_ERROR(211, "账号不正确"),
     LOGIN_DISABLED_ERROR(212, "改用户已被禁用"),
     REGISTER_MOBLE_ERROR(213, "手机号已被使用"),
     LOGIN_AURH(214, "需要登录"),
     LOGIN_ACL(215, "没有权限"),
 
-    URL_ENCODE_ERROR( 216, "URL编码失败"),
-    ILLEGAL_CALLBACK_REQUEST_ERROR( 217, "非法回调请求"),
-    FETCH_ACCESSTOKEN_FAILD( 218, "获取accessToken失败"),
-    FETCH_USERINFO_ERROR( 219, "获取用户信息失败"),
+    URL_ENCODE_ERROR(216, "URL编码失败"),
+    ILLEGAL_CALLBACK_REQUEST_ERROR(217, "非法回调请求"),
+    FETCH_ACCESSTOKEN_FAILD(218, "获取accessToken失败"),
+    FETCH_USERINFO_ERROR(219, "获取用户信息失败"),
     //LOGIN_ERROR( 23005, "登录失败"),
 
     PAY_RUN(220, "支付中"),
@@ -39,6 +41,10 @@ public enum ResultCodeEnum {
     SIGN_ERROR(300, "签名错误"),
     HOSPITAL_OPEN(310, "医院未开通，暂时不能访问"),
     HOSPITAL_LOCK(320, "医院被锁定，暂时不能访问"),
+    USERNAME_OR_PASSWORD_ERROR(501, "账号或密码错误"),
+    USER_DELETED(502, "用户已被删除"),
+    USER_DISABLE(503, "用户已被禁用"),
+    USER_NOT_EXIST(504, "用户不存在"),
 
     USERNAME_NOT_NULL(507, "用户名不能为空"),
     PASSWORD_NOT_NULL(517, "密码不能为空"),
@@ -50,8 +56,8 @@ public enum ResultCodeEnum {
     PASSWORD_LENGTH_EIGHT(587, "密码长度小于6位"),
     ;
 
-    private Integer code;
-    private String message;
+    private final Integer code;
+    private final String message;
 
     public Integer getCode() {
         return code;
@@ -65,9 +71,10 @@ public enum ResultCodeEnum {
         this.code = code;
         this.message = message;
     }
-    public static ResultCodeEnum getByCode(Integer code){
+
+    public static ResultCodeEnum getByCode(Integer code) {
         for (ResultCodeEnum value : ResultCodeEnum.values()) {
-            if(value.getCode().equals(code)){
+            if (value.getCode().equals(code)) {
                 return value;
             }
         }

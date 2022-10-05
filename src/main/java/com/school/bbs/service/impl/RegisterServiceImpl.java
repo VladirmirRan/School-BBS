@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.school.bbs.common.context.LoginContext;
 import com.school.bbs.common.exception.YyghException;
-import com.school.bbs.common.result.ResultCodeEnum;
 import com.school.bbs.constant.AuthConstant;
+import com.school.bbs.constant.ResultCodeEnum;
 import com.school.bbs.domain.UserDomain;
 import com.school.bbs.mapper.UserDomainMapper;
 import com.school.bbs.service.RegisterService;
@@ -83,22 +83,22 @@ public class RegisterServiceImpl extends ServiceImpl<UserDomainMapper, UserDomai
         String decryptPassword = null;
         // 解密后的检查密码
         String decryptCheckPassword = null;
-        if (StringUtils.isEmpty(uuid)){
+        if (StringUtils.isEmpty(uuid)) {
             throw new RuntimeException("请检查用户名和密码");
         }
         // 通过uuid从redis缓存中获取密钥对
-        LoginContext loginContext = redisCache.getCacheObject(AuthConstant.LOGINBEFORE + uuid);
+        LoginContext loginContext = redisCache.getCacheObject(AuthConstant.LOGIN_BEFORE + uuid);
         // 从redis缓存中取出私钥
         String privateKey = loginContext.getPrivateKey();
         // 通过私钥对前端传过来的密码进行解密
         try {
             decryptPassword = RsaUtil.decrypt(password, privateKey);
             decryptCheckPassword = RsaUtil.decrypt(checkPassword, privateKey);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         // 密码获取到之后，删除缓存
-        redisCache.deleteObject(AuthConstant.LOGINBEFORE + uuid);
+        redisCache.deleteObject(AuthConstant.LOGIN_BEFORE + uuid);
         //对数据进行是否存在的判断
         if (userNameExist(userName)) {
             throw new YyghException(ResultCodeEnum.USERNAME_EXIST);

@@ -2,6 +2,7 @@ package com.school.bbs.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.school.bbs.common.context.UserContext;
+import com.school.bbs.common.exception.YyghException;
 import com.school.bbs.domain.UserDomain;
 import com.school.bbs.mapper.UserDomainMapper;
 import com.school.bbs.utils.request.LoginUser;
@@ -15,6 +16,11 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+
+import static com.school.bbs.constant.BaseStatusEnum.DISABLE;
+import static com.school.bbs.constant.DeletedEnum.DELETED;
+import static com.school.bbs.constant.ResultCodeEnum.USER_DELETED;
+import static com.school.bbs.constant.ResultCodeEnum.USER_NOT_EXIST;
 
 /**
  * @author lu.xin
@@ -37,7 +43,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         UserDomain user = userMapper.selectOne(queryWrapper);
         //如果没有查询到用户就抛出异常
         if (Objects.isNull(user)) {
-            throw new RuntimeException("用户名或密码错误");
+            throw new YyghException(USER_NOT_EXIST);
+        } else if (DELETED.getCode() == user.getDeleted()) {
+            throw new YyghException(USER_DELETED);
+        } else if (DISABLE.getCode() == user.getStatus()) {
+            throw new YyghException(USER_DELETED);
         }
         // TODO:查询对应的权限信息
 //        List<String> list = new ArrayList<>(Arrays.asList("test" , "admin"));

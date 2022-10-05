@@ -1,9 +1,9 @@
 package com.school.bbs.common.result;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.school.bbs.constant.ResultCodeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-
 
 import java.io.Serializable;
 

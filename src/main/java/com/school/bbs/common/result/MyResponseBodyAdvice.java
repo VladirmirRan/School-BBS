@@ -1,6 +1,7 @@
 package com.school.bbs.common.result;
 
 import com.alibaba.fastjson.JSONObject;
+import com.school.bbs.constant.ResultCodeEnum;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
@@ -11,6 +12,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 /**
  * 统一返回结果拦截
+ *
  * @author Nier_2B
  */
 @Order(0)

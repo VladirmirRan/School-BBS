@@ -1,10 +1,15 @@
 package com.school.bbs.common.result;
 
+import com.school.bbs.constant.ResultCodeEnum;
+
 import java.lang.annotation.*;
 
-import static com.school.bbs.common.result.ResultCodeEnum.SUCCESS;
+import static com.school.bbs.constant.ResultCodeEnum.SUCCESS;
 
-@Target({ElementType.METHOD,ElementType.TYPE})
+/**
+ * @author Nier_2B
+ */
+@Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface ApiResult {

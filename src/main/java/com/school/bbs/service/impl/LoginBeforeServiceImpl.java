@@ -1,6 +1,5 @@
 package com.school.bbs.service.impl;
 
-import com.school.bbs.common.context.ContextHolder;
 import com.school.bbs.common.context.LoginContext;
 import com.school.bbs.constant.AuthConstant;
 import com.school.bbs.controller.output.LoginBeforeOutput;
@@ -10,7 +9,6 @@ import com.school.bbs.utils.RsaUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -34,10 +32,10 @@ public class LoginBeforeServiceImpl implements LoginBeforeService {
     @Override
     public LoginBeforeOutput loginBefore() {
         Map<Integer, String> genKeyPair = null;
-        try{
+        try {
             // 生成公钥和私钥和uuid
             genKeyPair = RsaUtil.genKeyPair();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         // uuid
@@ -46,16 +44,12 @@ public class LoginBeforeServiceImpl implements LoginBeforeService {
         String publicKey = genKeyPair.get(1);
         // 私钥
         String privateKey = genKeyPair.get(2);
-        Map<String, String> genKey = new HashMap<>();
-        genKey.put("uuid", uuid);
-        genKey.put("publicKey", publicKey);
-        genKey.put("privateKey", privateKey);
         LoginContext loginContext = new LoginContext();
         loginContext.setUuid(uuid);
         loginContext.setPublicKey(publicKey);
         loginContext.setPrivateKey(privateKey);
         //把uuid、公钥、私钥存入redis,uuid作为Key
-        redisCache.setCacheObject(AuthConstant.LOGINBEFORE + loginContext.getUuid(), loginContext);
+        redisCache.setCacheObject(AuthConstant.LOGIN_BEFORE + loginContext.getUuid(), loginContext);
         LoginBeforeOutput loginBeforeOutput = new LoginBeforeOutput();
         loginBeforeOutput.setUuid(uuid);
         loginBeforeOutput.setPublicKey(publicKey);

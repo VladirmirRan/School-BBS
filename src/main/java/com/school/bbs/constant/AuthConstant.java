@@ -10,9 +10,11 @@ public class AuthConstant {
 
     public static final String LOGIN = "login:";
 
-    public static final String LOGINBEFORE = "loginBefore:";
+    public static final String LOGIN_BEFORE = "loginBefore:";
 
+    public static final String DISABLE_USER = "disable user:";
 
+    public static final String WRONG_PASSWORD = "wrong password:";
 
 
 }

@@ -1,7 +1,7 @@
 package com.school.bbs.common.exception;
 
 
-import com.school.bbs.common.result.ResultCodeEnum;
+import com.school.bbs.constant.ResultCodeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 

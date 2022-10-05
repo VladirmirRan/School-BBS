@@ -3,9 +3,12 @@ package com.school.bbs.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.school.bbs.common.context.LoginContext;
 import com.school.bbs.common.context.UserContext;
+import com.school.bbs.common.exception.YyghException;
+import com.school.bbs.config.UserProperties;
 import com.school.bbs.constant.AuthConstant;
 import com.school.bbs.controller.input.LoginInput;
 import com.school.bbs.controller.output.LoginOutput;
+import com.school.bbs.mapper.UserDomainMapper;
 import com.school.bbs.service.LoginService;
 import com.school.bbs.utils.JwtUtil;
 import com.school.bbs.utils.RedisCache;
@@ -19,9 +22,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
+
+import static com.school.bbs.constant.ResultCodeEnum.USERNAME_OR_PASSWORD_ERROR;
+import static com.school.bbs.constant.ResultCodeEnum.USER_DISABLE;
 
 
 /**
@@ -36,6 +41,10 @@ public class LoginServiceImpl implements LoginService {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+    @Autowired
+    private UserDomainMapper userDomainMapper;
+    @Autowired
+    private UserProperties userProperties;
 
     @Autowired
     private RedisCache redisCache;
@@ -52,28 +61,48 @@ public class LoginServiceImpl implements LoginService {
         String decryptPassword = null;
         // 获取前端传过来的uuid
         String uuid = loginInput.getUuid();
-        if (StringUtils.isEmpty(uuid)){
-            throw new RuntimeException("请检查用户名和密码");
+        if (StringUtils.isEmpty(uuid)) {
+            throw new YyghException(USERNAME_OR_PASSWORD_ERROR);
+        }
+        //判断用户是否封禁
+        String disAbleUser = redisCache.getCacheObject(AuthConstant.DISABLE_USER + loginInput.getUsrName());
+        if (!StringUtils.isEmpty(disAbleUser)) {
+            throw new YyghException(USER_DISABLE);
         }
         // 通过uuid从redis缓存中获取密钥对
-        LoginContext loginContext = redisCache.getCacheObject(AuthConstant.LOGINBEFORE + uuid);
+        LoginContext loginContext = redisCache.getCacheObject(AuthConstant.LOGIN_BEFORE + uuid);
+        if (StringUtils.isEmpty(loginContext)) {
+            throw new YyghException(USERNAME_OR_PASSWORD_ERROR);
+        }
         // 从redis缓存中取出私钥
         String privateKey = loginContext.getPrivateKey();
         // 通过私钥对前端传过来的密码进行解密
         try {
             decryptPassword = RsaUtil.decrypt(loginInput.getPassword(), privateKey);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
+            throw new YyghException(USERNAME_OR_PASSWORD_ERROR);
         }
         // 密码获取到之后，删除缓存
-        redisCache.deleteObject(AuthConstant.LOGINBEFORE + uuid);
+        redisCache.deleteObject(AuthConstant.LOGIN_BEFORE + uuid);
         // AuthenticationManager authenticationManager进行用户验证
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginInput.getUsrName(), decryptPassword);
         Authentication authenticate = authenticationManager.authenticate(authenticationToken);
         //如果认证没通过，给出对应的提示
         if (Objects.isNull(authenticate)) {
-            throw new RuntimeException("登录失败");
+            Integer wrongTimes = redisCache.getCacheObject(AuthConstant.WRONG_PASSWORD + loginInput.getUsrName());
+            //大于允许错误次数则锁定该用户一小时不得访问
+            if (wrongTimes++ > userProperties.getAllowedPasswordErrors()) {
+                redisCache.setCacheObject(AuthConstant.DISABLE_USER + loginInput.getUsrName(), loginInput.getUsrName(), userProperties.getBlockedTime(), TimeUnit.SECONDS);
+            } else {
+                //否则次数加一
+                redisCache.deleteObject(AuthConstant.WRONG_PASSWORD + loginInput.getUsrName());
+                redisCache.setCacheObject(AuthConstant.WRONG_PASSWORD + loginInput.getUsrName(), wrongTimes, userProperties.getBlockedTime(), TimeUnit.SECONDS);
+            }
+            throw new YyghException(USERNAME_OR_PASSWORD_ERROR);
         }
+        //验证通过清空密码错误次数验证
+        redisCache.deleteObject(AuthConstant.DISABLE_USER + loginInput.getUsrName());
         //如果认证通过了，使用userid生成一个jwt,jwt存入 Result 返回
         LoginUser loginUser = (LoginUser) authenticate.getPrincipal();
         String subject = JSON.toJSONString(loginUser.getUserContext());

@@ -29,3 +29,11 @@ mybatis-plus:
       logic-delete-value: 1
       # 逻辑未删除值(默认为 0)
       logic-not-delete-value: 0
+
+
+#用户相关配置时间
+user:
+  #锁定时间 秒
+  blockedTime: 3600
+  #重试次数
+  allowedPasswordErrors: 4
