@@ -1,5 +1,6 @@
 package com.school.bbs.controller.input;
 
+import com.school.bbs.constant.ArticleCategoryEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -21,8 +22,8 @@ public class AddArticleInput {
     @ApiModelProperty(value = "文章摘要")
     private String summary;
 
-    @ApiModelProperty(value = "所属分类id", required = true)
-    private Long categoryId;
+    @ApiModelProperty(value = "所属分类枚举", required = true)
+    private ArticleCategoryEnum categoryEnum;
 
 
     @ApiModelProperty("缩略图")

@@ -23,7 +23,7 @@ public class EditUserInfoInput {
     @ApiModelProperty("电话")
     private String phone;
 
-    @ApiModelProperty("性别 1男 2女")
+    @ApiModelProperty("性别")
     private SexEnum sex;
 
     @ApiModelProperty("头像")

@@ -1,6 +1,7 @@
 package com.school.bbs.controller.output;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.school.bbs.constant.ArticleCategoryEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -12,14 +13,14 @@ import lombok.Data;
 @Data
 @ApiModel("查找文章列表出参")
 public class QueryArticleListOutput {
-    @ApiModelProperty(value = "标题", required = true)
+    @ApiModelProperty(value = "标题")
     private String title;
 
     @ApiModelProperty(value = "文章摘要")
     private String summary;
 
-    @ApiModelProperty(value = "所属分类id", required = true)
-    private Long categoryId;
+    @ApiModelProperty(value = "所属分类id")
+    private ArticleCategoryEnum categoryEnum;
 
 
     @ApiModelProperty("缩略图")

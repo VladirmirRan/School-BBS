@@ -32,14 +32,14 @@ public class ArticleController {
     private ArticleService articleService;
 
     @ApiOperation("新建帖子")
-    @PostMapping
+    @PostMapping("/add")
     public void add(@RequestBody AddArticleInput article) {
-        articleService.add(article, ContextHolder.getLoginContext().getId());
+        articleService.add(article, 1004);
     }
 
     @ApiOperation("分页查询帖子")
     @GetMapping("/query/articleList")
-    public List<QueryArticleListOutput> queryArticleList(@RequestBody  QueryArticleInput queryArticleInput) {
+    public List<QueryArticleListOutput> queryArticleList( QueryArticleInput queryArticleInput) {
         return articleService.queryArticleList(queryArticleInput);
 
     }

@@ -47,7 +47,7 @@ public class ArticleDomain extends BaseDomain implements Serializable {
      * 所属分类id
      */
     @TableField("category_id")
-    private Long categoryId;
+    private Integer categoryId;
 
     /**
      * 缩略图
