@@ -2,16 +2,14 @@ package com.school.bbs;
 
 import com.school.bbs.domain.UserDomain;
 import com.school.bbs.mapper.UserDomainMapper;
+import com.school.bbs.utils.FormVerifiersUtil;
 import com.school.bbs.utils.RsaUtil;
-import com.school.bbs.utils.SensitiveFilterUtil;
 import com.school.bbs.utils.SensitiveReplaceUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
 
@@ -85,8 +83,8 @@ class SchoolBbsApplicationTests {
      */
     @Test
     public void testPublicKeyEncrypt() throws Exception {
-        String message = "123456";
-        String publicKey = "MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAMdFJ0UE21TpuUNbiTRTNfndEb+kuqpajHMlGYmVS3EaDVCrYG5yeboB/mOELQJlKYao4m7wxLZnFCnGLooXtr0CAwEAAQ==";
+        String message = "Crush0321";
+        String publicKey = "MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJIelMU2eTbcE4MkapIyEW+XEx6OoVIvJxZeAw40NaorROhi/DE2sMfhYFQ4uW7untwMS67KCq5cQ5AoN3UDqgECAwEAAQ==";
         String messageEn = RsaUtil.encrypt(message, publicKey);
         System.out.println("messageEn = " + messageEn);
     }
@@ -103,6 +101,13 @@ class SchoolBbsApplicationTests {
         // SensitiveReplaceUtil
         String readTxt = SensitiveReplaceUtil.replaceContent(target);
         System.out.println("readTxt = " + readTxt);
+    }
+
+    @Test
+    public void testPasswordVerifiers(){
+        String password = "Crush0321";
+        boolean checkPwd = FormVerifiersUtil.checkPwd(password);
+        System.out.println("checkPwd = " + checkPwd);
     }
 
 }

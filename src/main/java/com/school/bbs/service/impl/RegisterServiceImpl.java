@@ -9,6 +9,7 @@ import com.school.bbs.constant.ResultCodeEnum;
 import com.school.bbs.domain.UserDomain;
 import com.school.bbs.mapper.UserDomainMapper;
 import com.school.bbs.service.RegisterService;
+import com.school.bbs.utils.FormVerifiersUtil;
 import com.school.bbs.utils.RedisCache;
 import com.school.bbs.utils.RsaUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * @author lu.xin
@@ -79,13 +81,13 @@ public class RegisterServiceImpl extends ServiceImpl<UserDomainMapper, UserDomai
 //        if (!StringUtils.hasText(avatar)) {
 //            throw new YyghException(ResultCodeEnum.AVATAR_NOT_NULL);
 //        }
+        if (StringUtils.isEmpty(uuid)) {
+            throw new YyghException(ResultCodeEnum.UUID_NOT_NULL);
+        }
         // 解密后的密码
         String decryptPassword = null;
         // 解密后的检查密码
         String decryptCheckPassword = null;
-        if (StringUtils.isEmpty(uuid)) {
-            throw new RuntimeException("请检查用户名和密码");
-        }
         // 通过uuid从redis缓存中获取密钥对
         LoginContext loginContext = redisCache.getCacheObject(AuthConstant.LOGIN_BEFORE + uuid);
         // 从redis缓存中取出私钥
@@ -103,9 +105,17 @@ public class RegisterServiceImpl extends ServiceImpl<UserDomainMapper, UserDomai
         if (userNameExist(userName)) {
             throw new YyghException(ResultCodeEnum.USERNAME_EXIST);
         }
-        // TODO:对电话号码的校验
-        // 对密码长度进行校验，密码长度不得少于6位
-        if (password.length() < 6 || checkPassword.length() < 6) {
+        // 对两次输入的密码进行校验
+        assert decryptPassword != null;
+        if (!decryptPassword.equals(decryptCheckPassword)){
+            throw new YyghException(ResultCodeEnum.PASSWORD_NOT_MATCH);
+        }
+        // 对密码长度进行校验，密码长度不得少于8位
+//        if (password.length() < AuthConstant.PASSWORD_LENGTH_EIGHT || checkPassword.length() < AuthConstant.PASSWORD_LENGTH_EIGHT) {
+//            throw new YyghException(ResultCodeEnum.PASSWORD_LENGTH_EIGHT);
+//        }
+        // 对密码进行校验
+        if (!FormVerifiersUtil.checkPwd(decryptPassword)){
             throw new YyghException(ResultCodeEnum.PASSWORD_LENGTH_EIGHT);
         }
         // 对密码进行加密
@@ -118,10 +128,9 @@ public class RegisterServiceImpl extends ServiceImpl<UserDomainMapper, UserDomai
         user.setAvatar(avatar);
         user.setCreateTime(new Date());
         user.setUpdateTime(new Date());
-        // TODO:魔法值处理，对应User类的字段类型修改
-        user.setCreateUser(100001L);
-        user.setRole(3);
-        user.setDeleted(false);
+        user.setCreateUser(AuthConstant.ADMIN_ID);
+        user.setRole(AuthConstant.USER_ROLE_THREE);
+        user.setDeleted(AuthConstant.IS_DELETED_FALSE);
         // 存入数据库
         save(user);
     }

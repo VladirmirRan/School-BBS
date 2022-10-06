@@ -55,7 +55,9 @@ public enum ResultCodeEnum {
     AVATAR_NOT_NULL(547, "头像不能为空"),
     USERNAME_EXIST(567, "用户名已存在"),
     USER_REGISTER_FAIL(577, "用户注册失败"),
-    PASSWORD_LENGTH_EIGHT(587, "密码长度小于6位"),
+    PASSWORD_LENGTH_EIGHT(587, "密码长度小于8位"),
+    UUID_NOT_NULL(597, "UUID不能为空"),
+    PASSWORD_NOT_MATCH(598, "确认密码输入不一致"),
     ;
 
     private final Integer code;
