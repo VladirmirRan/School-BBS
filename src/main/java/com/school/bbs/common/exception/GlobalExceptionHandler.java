@@ -2,7 +2,7 @@ package com.school.bbs.common.exception;
 
 
 import com.school.bbs.common.result.Result;
-import com.school.bbs.constant.ResultCodeEnum;
+import com.school.bbs.constant.errorCode.ResultCodeEnum;
 import org.apache.poi.ss.formula.functions.T;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

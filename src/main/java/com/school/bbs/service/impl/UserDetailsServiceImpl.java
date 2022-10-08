@@ -19,8 +19,7 @@ import java.util.Set;
 
 import static com.school.bbs.constant.BaseStatusEnum.DISABLE;
 import static com.school.bbs.constant.DeletedEnum.DELETED;
-import static com.school.bbs.constant.ResultCodeEnum.USER_DELETED;
-import static com.school.bbs.constant.ResultCodeEnum.USER_NOT_EXIST;
+import static com.school.bbs.constant.errorCode.UserCodeEnum.*;
 
 /**
  * @author lu.xin
@@ -47,7 +46,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         } else if (DELETED.getCode() == user.getDeleted()) {
             throw new YyghException(USER_DELETED);
         } else if (DISABLE.getCode() == user.getStatus()) {
-            throw new YyghException(USER_DELETED);
+            throw new YyghException(USER_DISABLE);
         }
         // TODO:查询对应的权限信息
 //        List<String> list = new ArrayList<>(Arrays.asList("test" , "admin"));

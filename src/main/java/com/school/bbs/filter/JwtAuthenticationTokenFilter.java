@@ -21,8 +21,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Objects;
 
-import static com.school.bbs.constant.ResultCodeEnum.TOKEN_ERROR;
-import static com.school.bbs.constant.ResultCodeEnum.USER_NOT_LOGIN;
+import static com.school.bbs.constant.errorCode.UserCodeEnum.TOKEN_ERROR;
+import static com.school.bbs.constant.errorCode.UserCodeEnum.USER_NOT_LOGIN;
 
 /**
  * @author lu.xin

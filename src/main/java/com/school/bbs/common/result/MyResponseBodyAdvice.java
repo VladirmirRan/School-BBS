@@ -1,7 +1,7 @@
 package com.school.bbs.common.result;
 
 import com.alibaba.fastjson.JSONObject;
-import com.school.bbs.constant.ResultCodeEnum;
+import com.school.bbs.constant.errorCode.ResultCodeEnum;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;

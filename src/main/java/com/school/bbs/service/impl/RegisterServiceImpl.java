@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.school.bbs.common.context.LoginContext;
 import com.school.bbs.common.exception.YyghException;
 import com.school.bbs.constant.AuthConstant;
-import com.school.bbs.constant.ResultCodeEnum;
+import com.school.bbs.constant.errorCode.ResultCodeEnum;
 import com.school.bbs.domain.UserDomain;
 import com.school.bbs.mapper.UserDomainMapper;
 import com.school.bbs.service.RegisterService;
@@ -18,7 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.Date;
-import java.util.Objects;
+
+import static com.school.bbs.constant.errorCode.UserCodeEnum.*;
 
 /**
  * @author lu.xin
@@ -64,13 +65,13 @@ public class RegisterServiceImpl extends ServiceImpl<UserDomainMapper, UserDomai
     public void register(String userName, String password, String checkPassword, Integer sex, String phone, String avatar, String uuid) {
         // 对数据进行非空判断
         if (!StringUtils.hasText(userName)) {
-            throw new YyghException(ResultCodeEnum.USERNAME_NOT_NULL);
+            throw new YyghException(USERNAME_NOT_NULL);
         }
         if (!StringUtils.hasText(password)) {
-            throw new YyghException(ResultCodeEnum.PASSWORD_NOT_NULL);
+            throw new YyghException(PASSWORD_NOT_NULL);
         }
         if (!StringUtils.hasText(checkPassword)) {
-            throw new YyghException(ResultCodeEnum.PASSWORD_NOT_NULL);
+            throw new YyghException(PASSWORD_NOT_NULL);
         }
 //        if (!StringUtils.hasText(phone)) {
 //            throw new YyghException(ResultCodeEnum.PHONE_NOT_NULL);
@@ -82,7 +83,7 @@ public class RegisterServiceImpl extends ServiceImpl<UserDomainMapper, UserDomai
 //            throw new YyghException(ResultCodeEnum.AVATAR_NOT_NULL);
 //        }
         if (StringUtils.isEmpty(uuid)) {
-            throw new YyghException(ResultCodeEnum.UUID_NOT_NULL);
+            throw new YyghException(UUID_NOT_NULL);
         }
         // 解密后的密码
         String decryptPassword = null;
@@ -103,12 +104,12 @@ public class RegisterServiceImpl extends ServiceImpl<UserDomainMapper, UserDomai
         redisCache.deleteObject(AuthConstant.LOGIN_BEFORE + uuid);
         //对数据进行是否存在的判断
         if (userNameExist(userName)) {
-            throw new YyghException(ResultCodeEnum.USERNAME_EXIST);
+            throw new YyghException(USERNAME_EXIST);
         }
         // 对两次输入的密码进行校验
         assert decryptPassword != null;
         if (!decryptPassword.equals(decryptCheckPassword)){
-            throw new YyghException(ResultCodeEnum.PASSWORD_NOT_MATCH);
+            throw new YyghException(PASSWORD_NOT_MATCH);
         }
         // 对密码长度进行校验，密码长度不得少于8位
 //        if (password.length() < AuthConstant.PASSWORD_LENGTH_EIGHT || checkPassword.length() < AuthConstant.PASSWORD_LENGTH_EIGHT) {
@@ -116,7 +117,7 @@ public class RegisterServiceImpl extends ServiceImpl<UserDomainMapper, UserDomai
 //        }
         // 对密码进行校验
         if (!FormVerifiersUtil.checkPwd(decryptPassword)){
-            throw new YyghException(ResultCodeEnum.PASSWORD_LENGTH_EIGHT);
+            throw new YyghException(PASSWORD_LENGTH_EIGHT);
         }
         // 对密码进行加密
         String encodePassword = passwordEncoder.encode(decryptPassword);

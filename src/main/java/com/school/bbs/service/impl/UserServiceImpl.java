@@ -3,7 +3,7 @@ package com.school.bbs.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.school.bbs.common.exception.YyghException;
-import com.school.bbs.constant.ResultCodeEnum;
+import com.school.bbs.constant.errorCode.ResultCodeEnum;
 import com.school.bbs.constant.RoleEnum;
 import com.school.bbs.controller.input.EditUserInfoInput;
 import com.school.bbs.controller.output.UserInfoOutput;
@@ -53,10 +53,7 @@ public class UserServiceImpl extends ServiceImpl<UserDomainMapper, UserDomain> i
             }//如果是系统管理员则所有用户均可修改
             else if (RoleEnum.FIRST_ADMIN.getCode() == role) {
                 userMapper.updateById(userDomain);
-            } else {
-                throw new YyghException(ResultCodeEnum.PERMISSION);
             }
-
         } else {
             throw new YyghException(ResultCodeEnum.PERMISSION);
         }

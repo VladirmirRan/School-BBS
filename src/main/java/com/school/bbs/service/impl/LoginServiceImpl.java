@@ -25,14 +25,15 @@ import org.springframework.util.StringUtils;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-import static com.school.bbs.constant.ResultCodeEnum.USERNAME_OR_PASSWORD_ERROR;
-import static com.school.bbs.constant.ResultCodeEnum.USER_DISABLE;
+import static com.school.bbs.constant.errorCode.UserCodeEnum.USERNAME_OR_PASSWORD_ERROR;
+import static com.school.bbs.constant.errorCode.UserCodeEnum.USER_DISABLE;
 
 
 /**
+ * 登录接口实现类
+ *
  * @author lu.xin
  * @version 1.0.0
- * @description 登录接口实现类
  * @createDate 2022/10/2 13:30
  * @since 1.0.0
  */
@@ -58,7 +59,7 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public LoginOutput login(LoginInput loginInput) {
         // 解密后的密码
-        String decryptPassword = null;
+        String decryptPassword;
         // 获取前端传过来的uuid
         String uuid = loginInput.getUuid();
         if (StringUtils.isEmpty(uuid)) {

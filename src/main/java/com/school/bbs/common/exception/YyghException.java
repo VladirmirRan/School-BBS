@@ -1,7 +1,8 @@
 package com.school.bbs.common.exception;
 
 
-import com.school.bbs.constant.ResultCodeEnum;
+import com.school.bbs.constant.errorCode.ErrorInfo;
+import com.school.bbs.constant.errorCode.ResultCodeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -41,7 +42,7 @@ public class YyghException extends RuntimeException {
      *
      * @param resultCodeEnum
      */
-    public YyghException(ResultCodeEnum resultCodeEnum) {
+    public YyghException(ErrorInfo resultCodeEnum) {
         super(resultCodeEnum.getMessage());
         this.code = resultCodeEnum.getCode();
     }
