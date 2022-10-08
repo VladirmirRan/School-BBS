@@ -3,6 +3,7 @@ package com.school.bbs.controller;
 
 import com.school.bbs.common.context.ContextHolder;
 import com.school.bbs.common.result.ApiResult;
+import com.school.bbs.constant.AuthConstant;
 import com.school.bbs.controller.input.AddArticleInput;
 import com.school.bbs.controller.input.QueryArticleInput;
 import com.school.bbs.controller.output.QueryArticleListOutput;
@@ -34,7 +35,7 @@ public class ArticleController {
     @ApiOperation("新建帖子")
     @PostMapping("/add")
     public void add(@RequestBody AddArticleInput article) {
-        articleService.add(article, 1004);
+        articleService.add(article, AuthConstant.DXY_USER_ID);
     }
 
     @ApiOperation("分页查询帖子")

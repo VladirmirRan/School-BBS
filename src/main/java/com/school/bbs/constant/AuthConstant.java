@@ -36,5 +36,10 @@ public class AuthConstant {
      */
     public static final boolean IS_DELETED_FALSE = false;
 
+    /**
+     * dxy 用户 id
+     */
+    public static final long DXY_USER_ID = 100004;
+
 
 }
