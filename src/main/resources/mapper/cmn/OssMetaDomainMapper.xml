@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.school.bbs.mapper.OssMetaDomainMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.school.bbs.domain.OssMetaDomain">
+        <id column="id" property="id" />
+        <result column="client_id" property="clientId" />
+        <result column="name" property="name" />
+        <result column="size" property="size" />
+        <result column="uri" property="uri" />
+        <result column="md5" property="md5" />
+        <result column="media_type" property="mediaType" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="deleted" property="deleted" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, client_id, name, size, uri, md5, media_type, create_time, update_time, deleted
+    </sql>
+
+</mapper>

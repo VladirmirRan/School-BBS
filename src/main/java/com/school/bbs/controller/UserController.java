@@ -34,13 +34,13 @@ public class UserController {
      */
     @ApiOperation("查看用户信息")
     @GetMapping("/getUserInfo")
-    private UserInfoOutput getUserInfo() {
+    public UserInfoOutput getUserInfo() {
         return userService.getUserInfo(ContextHolder.getLoginContext().getId());
     }
 
     @ApiOperation("用户信息修改")
     @PostMapping("/editUserInfo")
-    private void editUserInfo(@RequestBody EditUserInfoInput input) {
+    public void editUserInfo(@RequestBody EditUserInfoInput input) {
         userService.editUserInfo(ContextHolder.getLoginContext().getId(), ContextHolder.getLoginContext().getRole(), input);
     }
 

@@ -10,13 +10,18 @@ public enum ModulesEnum {
      */
     SYSTEM(500,"系统模块"),
     /**
+     * 帖子模块
+     */
+    OSS(600,"帖子模块"),
+    /**
      * 用户模块
      */
-    USER(600, "用户错误代码"),
+    USER(610, "用户错误代码"),
     /**
      * 帖子模块
      */
-    ARTICLE(610,"帖子模块")
+    ARTICLE(620,"帖子模块"),
+
     ;
     private Integer code;
 

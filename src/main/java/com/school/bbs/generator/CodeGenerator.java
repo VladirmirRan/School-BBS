@@ -18,10 +18,11 @@ import java.util.Scanner;
 /**
  * mybatis-plus代码生成器，生成实体，mapper，mapper.xml，service，serviceImpl，controller
  * 演示例子，执行 main 方法控制台输入表名回车自动生成对应项目目录中(目录要需要自行修改)
+ *
  * @author Nier_2B
  */
 public class CodeGenerator {
- 
+
     /**
      * <p>
      * 读取控制台内容
@@ -40,11 +41,11 @@ public class CodeGenerator {
         }
         throw new MybatisPlusException("请输入正确的" + tip + "！");
     }
- 
+
     public static void main(String[] args) {
         // 代码生成器
         AutoGenerator mpg = new AutoGenerator();
- 
+
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
         //获取项目路径  及代码生成器所在的项目路径
@@ -52,7 +53,7 @@ public class CodeGenerator {
         //模块地址
         String modules = "";
         //设置输出文件路径
-        gc.setOutputDir(projectPath +modules+"/src/main/java");
+        gc.setOutputDir(projectPath + modules + "/src/main/java");
         //作者
         gc.setAuthor("why");
         //执行完 是否打开输出的目录，默认true
@@ -64,7 +65,7 @@ public class CodeGenerator {
         // 设置日期类型为Date(若不设置时间类型都会变成LocalDateTime部分连接池例如druid是无法识别的)
         gc.setDateType(DateType.ONLY_DATE);
         mpg.setGlobalConfig(gc);
- 
+
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
         dsc.setUrl("jdbc:mysql://sh-cynosdbmysql-grp-4pyk1uri.sql.tencentcdb.com:20794/school_bbs?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true");
@@ -72,7 +73,7 @@ public class CodeGenerator {
         dsc.setUsername("root");
         dsc.setPassword("M98PB-da4BGs85v");
         mpg.setDataSource(dsc);
- 
+
         // 包配置
         PackageConfig pc = new PackageConfig();
         //模块名称
@@ -91,9 +92,9 @@ public class CodeGenerator {
         pc.setServiceImpl("service.impl");
         //自定义controller包名(不同的模块自己手动修改)
         pc.setController("controller");
- 
+
         mpg.setPackageInfo(pc);
- 
+
         // 自定义配置
         InjectionConfig cfg = new InjectionConfig() {
             @Override
@@ -101,10 +102,10 @@ public class CodeGenerator {
                 // to do nothing
             }
         };
- 
+
         // 如果模板引擎是 freemarker
         String xmlPath = "/templates/mapper.xml.ftl";
- 
+
         // 自定义输出配置
         List<FileOutConfig> focList = new ArrayList<>();
         // 自定义配置会被优先输出  例子如下
@@ -112,22 +113,22 @@ public class CodeGenerator {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-                return projectPath +modules+ "/src/main/resources/mapper/cmn"
+                return projectPath + modules + "/src/main/resources/mapper/cmn"
                         + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
             }
         });
- 
+
         cfg.setFileOutConfigList(focList);
         mpg.setCfg(cfg);
- 
+
         cfg.setFileOutConfigList(focList);
         mpg.setCfg(cfg);
- 
+
         // 配置模板
         TemplateConfig templateConfig = new TemplateConfig();
         templateConfig.setXml(null);
         mpg.setTemplate(templateConfig);
- 
+
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();
         strategy.setNaming(NamingStrategy.underline_to_camel);
@@ -145,5 +146,5 @@ public class CodeGenerator {
         mpg.setTemplateEngine(new FreemarkerTemplateEngine());
         mpg.execute();
     }
- 
+
 }

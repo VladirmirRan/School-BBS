@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.school.bbs.common.context.UserContext;
 import com.school.bbs.common.exception.YyghException;
 import com.school.bbs.domain.UserDomain;
+import com.school.bbs.mapper.OssClientDomainMapper;
 import com.school.bbs.mapper.UserDomainMapper;
+import com.school.bbs.service.OssClientService;
 import com.school.bbs.utils.request.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -33,6 +35,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private UserDomainMapper userMapper;
+    @Autowired
+    private OssClientDomainMapper ossClientDomainMapper;
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
@@ -51,18 +55,20 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         // TODO:查询对应的权限信息
 //        List<String> list = new ArrayList<>(Arrays.asList("test" , "admin"));
 //        List<String> list = menuMapper.selectPermsByUserId(user.getId());
-        UserContext userContext = toUserContext(user);
+        String clientId = ossClientDomainMapper.selectByUserName(userName);
+        UserContext userContext = toUserContext(user,clientId);
         Set<GrantedAuthority> authorities = new HashSet<>(1);
         //把数据封装成UserDetails返回
         return new LoginUser(userContext, user.getName(), user.getPassword(), authorities);
     }
 
-    private UserContext toUserContext(UserDomain user) {
+    private UserContext toUserContext(UserDomain user,String clientId) {
         UserContext userContext = new UserContext();
         userContext.setId(user.getId());
         userContext.setName(user.getName());
         userContext.setRole(user.getRole());
         userContext.setEnable(user.getDeleted());
+        userContext.setClientId(clientId);
         userContext.setStatus(user.getStatus());
         userContext.setCreateTime(user.getCreateTime());
         return userContext;

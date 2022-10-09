@@ -7,7 +7,9 @@ import com.school.bbs.common.exception.YyghException;
 import com.school.bbs.constant.AuthConstant;
 import com.school.bbs.constant.errorCode.ResultCodeEnum;
 import com.school.bbs.domain.UserDomain;
+import com.school.bbs.mapper.OssClientDomainMapper;
 import com.school.bbs.mapper.UserDomainMapper;
+import com.school.bbs.service.OssClientService;
 import com.school.bbs.service.RegisterService;
 import com.school.bbs.utils.FormVerifiersUtil;
 import com.school.bbs.utils.RedisCache;
@@ -15,6 +17,7 @@ import com.school.bbs.utils.RsaUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.Date;
@@ -37,6 +40,8 @@ public class RegisterServiceImpl extends ServiceImpl<UserDomainMapper, UserDomai
 
     @Autowired
     private RedisCache redisCache;
+    @Autowired
+    private OssClientService ossClientService;
 
     /**
      * 判断用户名是否存在
@@ -62,6 +67,7 @@ public class RegisterServiceImpl extends ServiceImpl<UserDomainMapper, UserDomai
      * @return Result 响应结果
      */
     @Override
+    @Transactional
     public void register(String userName, String password, String checkPassword, Integer sex, String phone, String avatar, String uuid) {
         // 对数据进行非空判断
         if (!StringUtils.hasText(userName)) {
@@ -133,6 +139,8 @@ public class RegisterServiceImpl extends ServiceImpl<UserDomainMapper, UserDomai
         user.setRole(AuthConstant.USER_ROLE_THREE);
         user.setDeleted(AuthConstant.IS_DELETED_FALSE);
         // 存入数据库
+        //todo 后期优化，减少事务注解包括的范围
         save(user);
+        ossClientService.register(userName);
     }
 }

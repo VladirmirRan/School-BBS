@@ -16,6 +16,8 @@ public class UserContext {
     private Integer role;
     private Date createTime;
 
+    private String clientId;
+
     public long getId() {
         return id;
     }
@@ -62,5 +64,17 @@ public class UserContext {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public void setRole(Integer role) {
+        this.role = role;
+    }
+
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
     }
 }
