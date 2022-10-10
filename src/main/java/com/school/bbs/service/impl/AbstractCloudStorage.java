@@ -1,5 +1,6 @@
 package com.school.bbs.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -13,9 +14,8 @@ import java.io.InputStream;
  * @author why
  * @since 2022-10-09
  */
+@Slf4j
 public abstract class AbstractCloudStorage extends AbstractStorage {
-
-    private static final Logger logger = LoggerFactory.getLogger(AbstractCloudStorage.class);
 
     /**
      * 从云端获取文件时先从本地获取
@@ -36,10 +36,11 @@ public abstract class AbstractCloudStorage extends AbstractStorage {
      * @throws IOException IOException
      */
     protected File cacheToLocal(InputStream inputStream, String path) throws IOException {
+        log.info("cacheToLocal start params:path{}",path);
         File file = new File(path);
 
         if (file.exists()) {
-            logger.error("abstract cloud storage cache file to local error, file already exist. path:{}", path);
+            log.error("abstract cloud storage cache file to local error, file already exist. path:{}", path);
             return file;
         }
 

@@ -35,7 +35,7 @@ public class ArticleController {
     @ApiOperation("新建帖子")
     @PostMapping("/add")
     public void add(@RequestBody AddArticleInput article) {
-        articleService.add(article, AuthConstant.DXY_USER_ID);
+        articleService.add(article, ContextHolder.getLoginContext().getId());
     }
 
     @ApiOperation("分页查询帖子")

@@ -103,7 +103,7 @@ public class OssServiceImpl implements OssService {
             meta.setClientId(clientId);
             meta.setName(name);
             meta.setSize(size);
-            //meta.setUri(uri);
+            meta.setUri(uri);
             meta.setMd5(md5);
             meta.setMediaType(mediaType);
 
@@ -120,5 +120,10 @@ public class OssServiceImpl implements OssService {
             throw new YyghException(UPLOAD_FILE_ERROR);
         }
 
+    }
+
+    @Override
+    public OssMetaDomain exchange(Long fileId) {
+        return ossMetaDomainMapper.selectById(fileId);
     }
 }

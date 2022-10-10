@@ -31,7 +31,9 @@ public class MyResponseBodyAdvice implements ResponseBodyAdvice {
     @Override
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType,
                                   Class selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-
+        if(selectedContentType.includes(MediaType.APPLICATION_OCTET_STREAM)){
+            return body;
+        }
         ApiResult apiResult = returnType.getMethod().getAnnotation(ApiResult.class);
         if (apiResult == null) {
             if (body instanceof String) {

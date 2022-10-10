@@ -6,6 +6,7 @@ import com.school.bbs.utils.IpUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -69,6 +70,11 @@ public class WebLogAspect {
     @AfterReturning(returning = "res",pointcut = "webLog()")
     public void doAfterReturning(Object res) throws JsonProcessingException{
         //获取返回值
-        log.info("返回值："+new ObjectMapper().writeValueAsString(res));
+        if(res instanceof ResponseEntity){
+            log.info("返回值："+new ObjectMapper().writeValueAsString(res.hashCode()));
+        }else{
+            log.info("返回值："+new ObjectMapper().writeValueAsString(res));
+        }
+
     }
 }

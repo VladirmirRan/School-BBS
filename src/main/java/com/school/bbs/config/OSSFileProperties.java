@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
  * @author why
  * @since 2022/10/09/15:29
  */
-@Data
+
 @Component
 @ConfigurationProperties(prefix = "oss.file",ignoreUnknownFields = false)
 public class OSSFileProperties {
@@ -18,6 +18,29 @@ public class OSSFileProperties {
 
     private String directory;
 
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public String getOlddir() {
+        return olddir;
+    }
+
+    public void setOlddir(String olddir) {
+        this.olddir = olddir;
+    }
+
+    public String getDirectory() {
+        return directory;
+    }
+
+    public void setDirectory(String directory) {
+        this.directory = directory;
+    }
 
     public enum Type {
         /**

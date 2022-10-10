@@ -97,13 +97,14 @@ public class OSSCloudStorage extends AbstractCloudStorage {
 
     @Override
     public File obtain(String uri) throws IOException {
+        log.info("file download start param:{}",uri);
         // 本地读取未果，尝试从云端拉取
         String path = fileProperties.getDirectory() + uri;
         File file = cacheFromLocal(path);
         if (file.exists()) {
             return file;
         }
-
+        log.info("---------file download to ali yun ---------");
         String bucket = cloudProperties.getBucket();
         String subdir = cloudProperties.getSubdir();
         OSSObject ossObj = client.getObject(bucket, subdir + uri);
@@ -112,7 +113,7 @@ public class OSSCloudStorage extends AbstractCloudStorage {
                 FileUtils.copyInputStreamToFile(objContent, file);
             }
         }
-
+        log.info("file download end result:{}",file.hashCode());
         return file;
     }
 
@@ -129,6 +130,7 @@ public class OSSCloudStorage extends AbstractCloudStorage {
 
     @Override
     public String save(String clientId, String directory, String fileName, InputStream inputStream) throws IOException {
+       log.info("file save start param:clientId{}  ,directory{} ,fileName{}",clientId,directory,fileName);
         // 先存储在本地然后上传到云端
         String uri = OssUtils.getUri(clientId, directory, fileName);
         try {
