@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.school.bbs.domain.UserDomain;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * @author lu.xin
  * @version 1.0.0
@@ -13,4 +15,7 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface UserDomainMapper extends BaseMapper<UserDomain> {
+
+    UserDomain getUserListById(Long id);
+
 }

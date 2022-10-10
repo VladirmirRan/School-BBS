@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.school.bbs.mapper.UserMapper">
+<mapper namespace="com.school.bbs.mapper.UserDomainMapper">
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.school.bbs.domain.UserDomain">
@@ -22,5 +22,14 @@
     <sql id="Base_Column_List">
         id, name, role, phone, password, sex, avatar, create_user, status, create_time, update_time, deleted
     </sql>
+    <select id="getUserListById" resultMap="BaseResultMap">
+        select
+            <include refid="Base_Column_List"/>
+        from
+            user
+        where
+            1 = 1
+        and id = #{id}
+    </select>
 
 </mapper>
