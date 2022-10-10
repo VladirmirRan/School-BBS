@@ -32,3 +32,6 @@ build/
 
 ### log
 logs
+
+###oss配置
+src/main/resources/application-oss.yml

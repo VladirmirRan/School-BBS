@@ -42,18 +42,3 @@ logging:
   config: classpath:logback.xml
 
 
-oss:
-  cloud:
-    endpoint: http://oss-cn-hangzhou.aliyuncs.com
-    access-key-id: LTAI5tG2CdDdmP7PLJft3BGs
-    access-secret: qwcvwxo5GZ0H2Ld0OEFFgQpfw8frhd
-    bucket: school-bbs
-    subdir: dev
-    cache: false
-    log-bucket: school-log
-    expire-time: 900
-    max-size: 1024000
-  file:
-    type: CLOUD_OSS
-    olddir: /var/school_bbs/file
-    directory: /var/school_bbs/oss
