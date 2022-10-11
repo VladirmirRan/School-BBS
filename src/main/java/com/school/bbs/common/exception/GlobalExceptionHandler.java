@@ -2,6 +2,7 @@ package com.school.bbs.common.exception;
 
 
 import com.school.bbs.common.result.Result;
+import com.school.bbs.constant.errorCode.ErrorInfo;
 import com.school.bbs.constant.errorCode.ResultCodeEnum;
 import org.apache.poi.ss.formula.functions.T;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -24,6 +25,6 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public Result<T> error(YyghException e) {
         e.printStackTrace();
-        return Result.fail(ResultCodeEnum.getByCode(e.getCode()));
+        return Result.fail(e.getCode(),e.getMessage());
     }
 }

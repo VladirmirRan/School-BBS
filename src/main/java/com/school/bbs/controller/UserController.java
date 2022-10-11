@@ -4,6 +4,7 @@ package com.school.bbs.controller;
 import com.school.bbs.common.context.ContextHolder;
 import com.school.bbs.common.result.ApiResult;
 import com.school.bbs.controller.input.EditUserInfoInput;
+import com.school.bbs.controller.input.GetVerificationCodeInput;
 import com.school.bbs.controller.output.UserInfoOutput;
 import com.school.bbs.service.UserService;
 import io.swagger.annotations.Api;
@@ -42,6 +43,12 @@ public class UserController {
     @PostMapping("/editUserInfo")
     public void editUserInfo(@RequestBody EditUserInfoInput input) {
         userService.editUserInfo(ContextHolder.getLoginContext().getId(), ContextHolder.getLoginContext().getRole(), input);
+    }
+
+    @ApiOperation("获取验证码")
+    @GetMapping("/getVerificationCode")
+    private void getVerificationCode(GetVerificationCodeInput input){
+
     }
 
 }

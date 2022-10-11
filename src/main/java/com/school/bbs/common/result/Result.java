@@ -1,6 +1,7 @@
 package com.school.bbs.common.result;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.school.bbs.constant.errorCode.ErrorInfo;
 import com.school.bbs.constant.errorCode.ResultCodeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -57,10 +58,10 @@ public class Result<T> extends IResult implements Serializable {
     public Result() {
     }
 
-    public static <T> Result<T> build(T data, ResultCodeEnum codeEnum) {
+    public static <T> Result<T> build(T data, Integer code,String message) {
         Result result = new Result();
-        result.setCode(codeEnum.getCode());
-        result.setMsg(codeEnum.getMessage());
+        result.setCode(code);
+        result.setMsg(message);
         result.setData(data);
         return result;
     }
@@ -73,18 +74,18 @@ public class Result<T> extends IResult implements Serializable {
      * @return
      */
     public static <T> Result<T> fail(T data) {
-        return build(data, ResultCodeEnum.FAIL);
+        return build(data, ResultCodeEnum.FAIL.getCode(),ResultCodeEnum.FAIL.getMessage());
     }
 
     /**
      * 操作失败
-     *
-     * @param codeEnum
-     * @param <T>
+     * @param code
+     * @param message
      * @return
+     * @param <T>
      */
-    public static <T> Result<T> fail(ResultCodeEnum codeEnum) {
-        return build(null, codeEnum);
+    public static <T> Result<T> fail(Integer code,String message) {
+        return build(null, code,message);
     }
 
     /**
@@ -94,7 +95,7 @@ public class Result<T> extends IResult implements Serializable {
      * @return
      */
     public static <T> Result<T> fail() {
-        return build(null, ResultCodeEnum.FAIL);
+        return build(null, ResultCodeEnum.FAIL.getCode(),ResultCodeEnum.FAIL.getMessage());
     }
 
 }
