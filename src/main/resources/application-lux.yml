@@ -38,3 +38,8 @@ user:
   blockedTime: 3600
   #重试次数
   allowedPasswordErrors: 4
+
+oss:
+  file:
+    type: LOCAL
+

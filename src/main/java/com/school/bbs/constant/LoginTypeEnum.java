@@ -4,36 +4,35 @@ import lombok.Getter;
 
 /**
  * @author why
- * @since 2022/10/11/15:20
+ * @since 2022/10/11/17:26
  */
 @Getter
-public enum VerificationCodeEnum {
+public enum LoginTypeEnum {
+
     /**
      * 手机号
      */
-    PHONE(1, "手机号"),
+    LOGIN_PHONE(1, "手机号"),
     /**
      * 邮箱
      */
-    MAIL(2, "邮箱");
+    LOGIN_MAIL(2, "邮箱");
 
     private final int code;
 
     private final String message;
 
-    VerificationCodeEnum(Integer code, String message) {
+    LoginTypeEnum(Integer code, String message) {
         this.code = code;
         this.message = message;
     }
 
-    public static VerificationCodeEnum getByCode(Integer code) {
-        for (VerificationCodeEnum value : VerificationCodeEnum.values()) {
+    public static LoginTypeEnum getByCode(Integer code) {
+        for (LoginTypeEnum value : LoginTypeEnum.values()) {
             if (value.getCode() == code) {
                 return value;
             }
         }
         return null;
     }
-
-
 }

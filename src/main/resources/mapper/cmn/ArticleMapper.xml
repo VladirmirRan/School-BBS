@@ -33,10 +33,10 @@
         FROM
         article
         WHERE
+        deleted = 0
         <if test="title != null and title != ''">
-            title like CONCAT('%',#{title,jdbcType=VARCHAR},'%')
+            AND title like CONCAT('%',#{title,jdbcType=VARCHAR},'%')
         </if>
-        AND deleted = 0
         AND status = 2
         <if test="startTime != null">
             AND create_time &gt; #{startTime}
