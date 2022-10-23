@@ -55,7 +55,8 @@ public class FileController {
     public List<FileUploadOutput> upload(HttpServletRequest request) {
         String uri = request.getRequestURI();
         log.info("oss file upload method start. request uri:{}", uri);
-        String clientId = ContextHolder.getLoginContext().getClientId();
+        //String clientId = ContextHolder.getLoginContext().getClientId();
+        String clientId = "5c1e1b0f31c34db68c6b4f91279e0263";
         multipartCheck(request);
         MultipartHttpServletRequest multipartRequest = WebUtils.getNativeRequest(request, MultipartHttpServletRequest.class);
         Map<String, MultipartFile> multiFiles = multipartRequest.getFileMap();
