@@ -47,7 +47,7 @@ public class OSSLocalStorage extends AbstractStorage {
         File file = new File(filePath);
         FileUtils.copyInputStreamToFile(inputStream, file);
 
-        log.info("oss file upload to local storage success. clientId:{}, fileName:{}, size:{}", clientId, fileName, file.length());
+        log.info("oss file upload to local storage success. clientId:{}, fileName:{}, size:{},path{}", clientId, fileName, file.length(),filePath);
         return uri;
     }
 
